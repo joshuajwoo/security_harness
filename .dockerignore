@@ -1,0 +1,40 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment secrets
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Generated output
+reports/
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Test cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation / plan files
+*.md
+!README.md
+!scenarios/README.md
