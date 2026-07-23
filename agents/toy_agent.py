@@ -232,7 +232,7 @@ Rules:
 MAX_TURNS = 20
 
 # Default model
-DEFAULT_MODEL = "claude-sonnet-4-20250514"
+DEFAULT_MODEL = "claude-sonnet-4-6"
 
 
 class ToyAgent:

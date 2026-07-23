@@ -15,6 +15,8 @@ from collections import Counter
 from dataclasses import dataclass, field
 from typing import Any
 
+from agents.adapter import AgentTranscript
+
 from harness.grading.containment import ContainmentCategory, ContainmentResult
 from harness.grading.rules import SecurityVerdict
 from harness.grading.task_success import TaskGrade
@@ -37,6 +39,7 @@ class GradedResult:
     security_verdict: SecurityVerdict
     task_grade: TaskGrade
     containment: ContainmentResult | None  # None for clean runs
+    transcript: AgentTranscript
 
     def to_dict(self) -> dict[str, Any]:
         return {

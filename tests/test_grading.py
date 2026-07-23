@@ -413,6 +413,7 @@ def _make_graded_result(
             evidence="test",
             method="test",
         ) if not is_clean else None,
+        transcript=AgentTranscript(tool_calls=[], final_response="test", model="test"),
     )
 
 
