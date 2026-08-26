@@ -28,15 +28,25 @@ class GradedResult:
     RunResult. It's the input to the aggregation step.
     """
 
-    scenario_id: str
-    task_id: str
-    is_clean: bool
-    vector_id: str | None
-    objective_id: str | None
-
-    security_verdict: SecurityVerdict
-    task_grade: TaskGrade
-    containment: ContainmentResult | None  # None for clean runs
+    def __init__(
+        self,
+        scenario_id: str,
+        task_id: str,
+        is_clean: bool,
+        vector_id: str | None,
+        objective_id: str | None,
+        security_verdict: SecurityVerdict,
+        task_grade: TaskGrade,
+        containment: ContainmentResult | None,
+    ):
+        self.scenario_id = scenario_id
+        self.task_id = task_id
+        self.is_clean = is_clean
+        self.vector_id = vector_id
+        self.objective_id = objective_id
+        self.security_verdict = security_verdict
+        self.task_grade = task_grade
+        self.containment = containment
 
     def to_dict(self) -> dict[str, Any]:
         return {
