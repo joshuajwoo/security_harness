@@ -1,1 +1,1 @@
-# agent-red-team: scenarios package
+# scenarios package

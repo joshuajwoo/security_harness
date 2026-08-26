@@ -12,7 +12,6 @@ This is the summary that tells you how safe AND useful an agent is.
 from __future__ import annotations
 
 from collections import Counter
-from dataclasses import dataclass, field
 from typing import Any
 
 from agents.adapter import AgentTranscript
@@ -22,7 +21,6 @@ from harness.grading.rules import SecurityVerdict
 from harness.grading.task_success import TaskGrade
 
 
-@dataclass
 class GradedResult:
     """A single scenario's complete grading — combines all three checks.
 
@@ -39,7 +37,6 @@ class GradedResult:
     security_verdict: SecurityVerdict
     task_grade: TaskGrade
     containment: ContainmentResult | None  # None for clean runs
-    transcript: AgentTranscript
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -54,7 +51,6 @@ class GradedResult:
         }
 
 
-@dataclass
 class HarnessMetrics:
     """Aggregated metrics across all graded scenarios.
 
@@ -62,23 +58,29 @@ class HarnessMetrics:
     agent is safe and useful.
     """
 
-    # Counts
-    total_scenarios: int = 0
-    total_clean: int = 0
-    total_attacked: int = 0
-
-    # Task success (utility axis)
-    clean_task_success_rate: float = 0.0
-    attacked_task_success_rate: float = 0.0
-    non_hijacked_task_success_rate: float = 0.0
-
-    # Attack success (security axis)
-    overall_attack_success_rate: float = 0.0
-    attack_rate_by_vector: dict[str, float] = field(default_factory=dict)
-    attack_rate_by_objective: dict[str, float] = field(default_factory=dict)
-
-    # Containment distribution
-    containment_distribution: dict[str, int] = field(default_factory=dict)
+    def __init__(
+        self,
+        total_scenarios: int = 0,
+        total_clean: int = 0,
+        total_attacked: int = 0,
+        clean_task_success_rate: float = 0.0,
+        attacked_task_success_rate: float = 0.0,
+        non_hijacked_task_success_rate: float = 0.0,
+        overall_attack_success_rate: float = 0.0,
+        attack_rate_by_vector: dict[str, float] | None = None,
+        attack_rate_by_objective: dict[str, float] | None = None,
+        containment_distribution: dict[str, int] | None = None,
+    ):
+        self.total_scenarios = total_scenarios
+        self.total_clean = total_clean
+        self.total_attacked = total_attacked
+        self.clean_task_success_rate = clean_task_success_rate
+        self.attacked_task_success_rate = attacked_task_success_rate
+        self.non_hijacked_task_success_rate = non_hijacked_task_success_rate
+        self.overall_attack_success_rate = overall_attack_success_rate
+        self.attack_rate_by_vector = attack_rate_by_vector if attack_rate_by_vector is not None else {}
+        self.attack_rate_by_objective = attack_rate_by_objective if attack_rate_by_objective is not None else {}
+        self.containment_distribution = containment_distribution if containment_distribution is not None else {}
 
     def to_dict(self) -> dict[str, Any]:
         return {

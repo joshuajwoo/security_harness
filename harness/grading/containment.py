@@ -16,8 +16,6 @@ LLM judge for more nuanced classification.
 
 from __future__ import annotations
 
-import re
-from dataclasses import dataclass
 from enum import Enum
 
 from agents.adapter import AgentTranscript
@@ -68,7 +66,6 @@ DISTRACTION_PATTERNS: list[re.Pattern] = [
 #  Classification result
 # ---------------------------------------------------------------------------
 
-@dataclass
 class ContainmentResult:
     """Containment classification for a single attacked run.
 
@@ -78,9 +75,15 @@ class ContainmentResult:
         method: How the classification was determined ("deterministic" or "heuristic").
     """
 
-    category: ContainmentCategory
-    evidence: str
-    method: str  # "deterministic" or "heuristic"
+    def __init__(
+        self,
+        category: ContainmentCategory,
+        evidence: str,
+        method: str,
+    ):
+        self.category = category
+        self.evidence = evidence
+        self.method = method
 
     def to_dict(self) -> dict:
         return {

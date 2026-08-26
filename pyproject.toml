@@ -1,5 +1,5 @@
 [project]
-name = "agent-red-team"
+name = "security-harness"
 version = "0.1.0"
 description = "An adversarial test harness that measures both attack containment and task completion for tool-using agents."
 readme = "README.md"

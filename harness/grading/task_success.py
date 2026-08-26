@@ -8,7 +8,6 @@ This module adds structured output and documents each check's type.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from enum import Enum
 
 from harness.models import RunResult
@@ -21,7 +20,6 @@ class CheckType(str, Enum):
     JUDGE_BASED = "judge_based"
 
 
-@dataclass
 class TaskGrade:
     """Result of task-success grading for a single run.
 
@@ -32,10 +30,17 @@ class TaskGrade:
         details: Human-readable explanation of the result.
     """
 
-    task_id: str
-    success: bool
-    check_type: CheckType
-    details: str
+    def __init__(
+        self,
+        task_id: str,
+        success: bool,
+        check_type: CheckType,
+        details: str,
+    ):
+        self.task_id = task_id
+        self.success = success
+        self.check_type = check_type
+        self.details = details
 
     def to_dict(self) -> dict:
         return {

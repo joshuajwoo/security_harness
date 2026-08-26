@@ -1,1 +1,1 @@
-# agent-red-team: harness grading subpackage
+# harness grading subpackage

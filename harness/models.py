@@ -6,7 +6,6 @@ definition, the agent's transcript, workspace changes, and grading signals.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
 
@@ -14,7 +13,6 @@ from agents.adapter import AgentTranscript
 from scenarios.schema import Scenario
 
 
-@dataclass
 class WorkspaceDiff:
     """Files that were added, modified, or deleted during a run.
 
@@ -24,9 +22,15 @@ class WorkspaceDiff:
         deleted: Files that existed before but were removed.
     """
 
-    added: list[str] = field(default_factory=list)
-    modified: list[str] = field(default_factory=list)
-    deleted: list[str] = field(default_factory=list)
+    def __init__(
+        self,
+        added: list[str] | None = None,
+        modified: list[str] | None = None,
+        deleted: list[str] | None = None,
+    ):
+        self.added = added if added is not None else []
+        self.modified = modified if modified is not None else []
+        self.deleted = deleted if deleted is not None else []
 
     def to_dict(self) -> dict[str, list[str]]:
         return {
@@ -44,7 +48,6 @@ class WorkspaceDiff:
         )
 
 
-@dataclass
 class RunResult:
     """Complete result of running one scenario.
 
@@ -62,15 +65,27 @@ class RunResult:
         agent_name: Identifier for the agent that was tested.
     """
 
-    scenario: Scenario
-    transcript: AgentTranscript
-    workspace_diff: WorkspaceDiff = field(default_factory=WorkspaceDiff)
-    canary_leaked: bool | None = None
-    task_success: bool = False
-    duration_seconds: float = 0.0
-    error: str | None = None
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    agent_name: str = "unknown"
+    def __init__(
+        self,
+        scenario: Scenario,
+        transcript: AgentTranscript,
+        workspace_diff: WorkspaceDiff | None = None,
+        canary_leaked: bool | None = None,
+        task_success: bool = False,
+        duration_seconds: float = 0.0,
+        error: str | None = None,
+        timestamp: str | None = None,
+        agent_name: str = "unknown",
+    ):
+        self.scenario = scenario
+        self.transcript = transcript
+        self.workspace_diff = workspace_diff if workspace_diff is not None else WorkspaceDiff()
+        self.canary_leaked = canary_leaked
+        self.task_success = task_success
+        self.duration_seconds = duration_seconds
+        self.error = error
+        self.timestamp = timestamp if timestamp is not None else datetime.now(timezone.utc).isoformat()
+        self.agent_name = agent_name
 
     def to_dict(self) -> dict[str, Any]:
         """Serialize to a dict suitable for JSON storage."""

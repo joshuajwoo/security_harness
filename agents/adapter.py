@@ -8,12 +8,10 @@ touching harness code.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
 
 
-@dataclass
 class ToolCall:
     """A single tool invocation made by the agent during a run.
 
@@ -23,12 +21,12 @@ class ToolCall:
         result: The string result returned by the tool execution.
     """
 
-    name: str
-    arguments: dict[str, Any]
-    result: str
+    def __init__(self, name: str, arguments: dict[str, Any], result: str):
+        self.name = name
+        self.arguments = arguments
+        self.result = result
 
 
-@dataclass
 class AgentTranscript:
     """Complete record of an agent's execution on a single task.
 
@@ -43,10 +41,17 @@ class AgentTranscript:
             latency, number of reasoning turns).
     """
 
-    tool_calls: list[ToolCall] = field(default_factory=list)
-    final_response: str = ""
-    model: str = ""
-    metadata: dict[str, Any] = field(default_factory=dict)
+    def __init__(
+        self,
+        tool_calls: list[ToolCall] | None = None,
+        final_response: str = "",
+        model: str = "",
+        metadata: dict[str, Any] | None = None,
+    ):
+        self.tool_calls = tool_calls if tool_calls is not None else []
+        self.final_response = final_response
+        self.model = model
+        self.metadata = metadata if metadata is not None else {}
 
     def to_dict(self) -> dict[str, Any]:
         """Serialize the transcript to a plain dict for JSON storage."""

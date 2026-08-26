@@ -1,1 +1,1 @@
-# agent-red-team: harness package
+# harness package

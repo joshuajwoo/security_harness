@@ -1,1 +1,1 @@
-# agent-red-team: agents package
+# agents package

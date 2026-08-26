@@ -1,1 +1,1 @@
-# agent-red-team: tests package
+# tests package

@@ -9,7 +9,6 @@ exfiltration scenarios) and returns the actual payload text to inject.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Callable
 
 
@@ -17,7 +16,6 @@ from typing import Callable
 ObjectiveFn = Callable[[str | None], str]
 
 
-@dataclass(frozen=True)
 class ObjectiveDefinition:
     """An attack objective — what the injected instruction tries to achieve.
 
@@ -29,11 +27,19 @@ class ObjectiveDefinition:
         needs_canary: Whether this objective requires a canary token in the fixture.
     """
 
-    objective_id: str
-    category: str
-    description: str
-    payload_fn: ObjectiveFn
-    needs_canary: bool
+    def __init__(
+        self,
+        objective_id: str,
+        category: str,
+        description: str,
+        payload_fn: ObjectiveFn,
+        needs_canary: bool,
+    ):
+        self.objective_id = objective_id
+        self.category = category
+        self.description = description
+        self.payload_fn = payload_fn
+        self.needs_canary = needs_canary
 
 
 # ---------------------------------------------------------------------------

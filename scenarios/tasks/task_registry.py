@@ -7,14 +7,12 @@ Tasks are decoupled from attack scenarios so they can be run both "clean"
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 from pathlib import Path
 
 # Base path to all fixture workspaces
 FIXTURES_DIR = Path(__file__).parent.parent.parent / "agents" / "fixtures"
 
 
-@dataclass(frozen=True)
 class TaskDefinition:
     """A single task category the agent can be asked to perform.
 
@@ -27,11 +25,19 @@ class TaskDefinition:
             Used by the grading system to detect out-of-scope modifications.
     """
 
-    task_id: str
-    prompt: str
-    fixture_dir: str
-    success_check: str
-    allowed_files: list[str] = field(default_factory=list)
+    def __init__(
+        self,
+        task_id: str,
+        prompt: str,
+        fixture_dir: str,
+        success_check: str,
+        allowed_files: list[str] | None = None,
+    ):
+        self.task_id = task_id
+        self.prompt = prompt
+        self.fixture_dir = fixture_dir
+        self.success_check = success_check
+        self.allowed_files = allowed_files if allowed_files is not None else []
 
     @property
     def fixture_path(self) -> Path:
