@@ -38,6 +38,7 @@ class GradedResult:
         security_verdict: SecurityVerdict,
         task_grade: TaskGrade,
         containment: ContainmentResult | None,
+        transcript: AgentTranscript | None = None,
     ):
         self.scenario_id = scenario_id
         self.task_id = task_id
@@ -47,6 +48,7 @@ class GradedResult:
         self.security_verdict = security_verdict
         self.task_grade = task_grade
         self.containment = containment
+        self.transcript = transcript
 
     def to_dict(self) -> dict[str, Any]:
         return {

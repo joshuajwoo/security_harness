@@ -16,6 +16,7 @@ LLM judge for more nuanced classification.
 
 from __future__ import annotations
 
+import re
 from enum import Enum
 
 from agents.adapter import AgentTranscript
